@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,12 +28,9 @@ namespace IdentityNetCore.Controllers
 
         public async Task<IActionResult> SignUp()
         {
-            var roles = new SignUpDTO
-            {
-                Roles = _roleManager.Roles.ToList()
-            };
-
-            return View(roles);
+            //ViewBag.AllRoles
+            ViewData["AllRoles"] = await _roleManager.Roles.ToListAsync();
+            return View();
         }
 
         [HttpPost]
@@ -53,6 +52,7 @@ namespace IdentityNetCore.Controllers
 
                     if (result.Succeeded)
                     {
+                        await _userManager.AddToRoleAsync(user, signUp.Role);
                         return RedirectToAction("SignIn");
                     }
                     
@@ -88,12 +88,32 @@ namespace IdentityNetCore.Controllers
             return View();
         }
 
+        //public async Task<IActionResult> GetUserRoles()
+        private async Task<List<UserRolesDTO>> GetUserRoles()
+        {
+            var users = _userManager.Users.ToList();
+            var userRoles = new List<UserRolesDTO>();  
+            foreach (var user in users)
+            {
+                userRoles.Add(new UserRolesDTO
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    Role = await _userManager.GetRolesAsync(user)
+                });
+            }
+
+            //return Ok(userRoles);
+            return userRoles;
+        }
+
         public IActionResult CreateRole()
         {
             return View();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleDTO createRole)
         {
@@ -125,6 +145,71 @@ namespace IdentityNetCore.Controllers
             }
             
             return View(createRole);
+        }
+
+        public async Task<IActionResult> GetUsers()
+        {
+            var userRoles = await GetUserRoles();
+
+            return Ok(userRoles);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+            }
+
+            return RedirectToAction("GetUsers", "Identity");
+        }
+
+        //private async Task<List<IdentityRole>> GetRole(string id)
+        //{
+        //    var role = await _roleManager.FindByIdAsync(id);
+        //    var roles = new List<IdentityRole>();
+        //    if (role != null)
+        //    {
+                
+        //    }
+        //}
+
+        public IActionResult GetRoles()
+        {
+            var roleList = _roleManager.Roles.ToList();
+            var roles = new List<RoleDTO>();
+
+            if(roleList != null)
+            {
+                foreach (var role in roleList)
+                {
+                    roles.Add(new RoleDTO
+                    {
+                        Id = role.Id,
+                        Name = role.Name
+                    });
+                }
+
+                return View(roles);
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            /*var id = roleDTO.Id*/;
+            var role = await _roleManager.FindByIdAsync(id);
+            //var isRoleExist = await _roleManager.RoleExistsAsync(name);
+            if (role != null)
+            {
+                await _roleManager.DeleteAsync(role);
+            }
+
+            return RedirectToAction("GetRoles", "Identity");
         }
     }
 }

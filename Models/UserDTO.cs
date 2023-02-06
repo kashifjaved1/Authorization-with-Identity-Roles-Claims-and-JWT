@@ -4,12 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IdentityNetCore.Models
 {
-    public class UserDTO
-    {
-        //
-    }
-
-    public class SignInDTO : UserDTO
+    public class SignInDTO
     {
         [Required]
         public string FullName { get; set; }
@@ -26,7 +21,18 @@ namespace IdentityNetCore.Models
         public string Email { get; set; }
 
         [Required]
+        public string Role { get; set; }
+        //public List<IdentityRole> Roles { get; set; }
+    }
+
+    public class UserDTO : SignUpDTO
+    {
+        public string Id { get; set; }
+    }
+
+    public class UserRolesDTO : UserDTO
+    {
         //public string Role { get; set; }
-        public List<IdentityRole> Roles { get; set; }
+        public new IList<string> Role { get; set; }
     }
 }
