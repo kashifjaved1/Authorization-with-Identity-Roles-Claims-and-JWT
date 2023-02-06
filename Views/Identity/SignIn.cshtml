@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model SignInDTO
+
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<h1>Sign In</h1>
+<form style="display: flex; flex-direction: column; gap: 5px;" asp-controller="Identity" asp-action="SignIn" method="post">
+    @Html.ValidationSummary()
+    <input type="text" asp-for="FullName" placeholder="Enter you Name" />
+    <input type="password" asp-for="Password" placeholder="Enter you Password" />
+    <input type="submit" name="Submit" />
+</form>

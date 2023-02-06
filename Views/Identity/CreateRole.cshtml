@@ -1,0 +1,12 @@
+﻿@model CreateRoleDTO
+
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<h1>Create Role</h1>
+<form style="display: flex; flex-direction: column; gap: 5px;" asp-controller="Identity" asp-action="CreateRole" method="post">
+    @Html.ValidationSummary()
+    <input type="text" asp-for="Name" placeholder="Enter New Role Name" />
+    <input type="submit" name="Submit" />
+</form>
