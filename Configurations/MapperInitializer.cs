@@ -1,12 +1,12 @@
-﻿using AutoMapper;
+﻿//using AutoMapper;
 
-namespace IdentityNetCore.Configurations
-{
-    public class MapperInitializer : Profile
-    { 
-        public MapperInitializer() 
-        {
-            //
-        }
-    }
-}
+//namespace IdentityNetCore.Configurations
+//{
+//    public class MapperInitializer : Profile
+//    { 
+//        public MapperInitializer() 
+//        {
+//            //
+//        }
+//    }
+//}

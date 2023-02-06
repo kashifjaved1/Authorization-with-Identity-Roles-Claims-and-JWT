@@ -1,4 +1,3 @@
-using IdentityNetCore.Configurations;
 using IdentityNetCore.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

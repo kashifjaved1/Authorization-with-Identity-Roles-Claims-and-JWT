@@ -33,6 +33,6 @@ namespace IdentityNetCore.Models
     public class UserRolesDTO : UserDTO
     {
         //public string Role { get; set; }
-        public new IList<string> Role { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

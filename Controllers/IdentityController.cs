@@ -83,7 +83,7 @@ namespace IdentityNetCore.Controllers
             return View(signIn);
         }
 
-        public async Task<IActionResult> AccessDenied()
+        public IActionResult AccessDenied()
         {
             return View();
         }
@@ -100,7 +100,7 @@ namespace IdentityNetCore.Controllers
                     Id = user.Id,
                     FullName = user.FullName,
                     Email = user.Email,
-                    Role = await _userManager.GetRolesAsync(user)
+                    Roles = await _userManager.GetRolesAsync(user)
                 });
             }
 
@@ -150,8 +150,7 @@ namespace IdentityNetCore.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var userRoles = await GetUserRoles();
-
-            return Ok(userRoles);
+            return View(userRoles);
         }
 
         [HttpGet]

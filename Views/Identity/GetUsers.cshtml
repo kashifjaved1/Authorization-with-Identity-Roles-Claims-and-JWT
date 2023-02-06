@@ -13,7 +13,10 @@
             @*<input type="text" name="@role.Id" id="@role.Id" asp-for="@role.Id" value="@role.Id" disabled />*@
              <input value="@user.FullName" disabled />
              <input value="@user.Email" disabled />
-             <input value="@user.Role" disabled />
+             @foreach (var role in user.Roles)
+            {
+                <input value="@role" disabled />
+            }
              <a asp-controller="Identity" asp-action="DeleteUser" asp-route-id="@user.Id">Delete</a>
             @*<input type="submit" value="Delete" />*@
         @*</form>*@
