@@ -13,6 +13,11 @@
             @*<input type="text" name="@role.Id" id="@role.Id" asp-for="@role.Id" value="@role.Id" disabled />*@
              <input value="@user.FullName" disabled />
              <input value="@user.Email" disabled />
+            @*<input value='@User.Claims.FirstOrDefault(c => c.Type == "Department")' disabled />*@
+            @foreach (var claim in user.Claims)
+            {
+                <input value="@claim.Value" disabled />
+            }
              @foreach (var role in user.Roles)
             {
                 <input value="@role" disabled />

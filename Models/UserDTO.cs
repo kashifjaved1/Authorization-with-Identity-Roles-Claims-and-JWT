@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace IdentityNetCore.Models
 {
@@ -19,6 +20,7 @@ namespace IdentityNetCore.Models
         [Required]
         [DataType(DataType.EmailAddress, ErrorMessage = "Valid Email Address is Required.")]
         public string Email { get; set; }
+        public string Department { get; set; }
 
         [Required]
         public string Role { get; set; }
@@ -32,7 +34,7 @@ namespace IdentityNetCore.Models
 
     public class UserRolesDTO : UserDTO
     {
-        //public string Role { get; set; }
+        public IList<Claim> Claims { get; set; }
         public IList<string> Roles { get; set; }
     }
 }

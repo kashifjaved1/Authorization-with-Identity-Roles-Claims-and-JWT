@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IdentityNetCore.Controllers
@@ -52,7 +53,9 @@ namespace IdentityNetCore.Controllers
 
                     if (result.Succeeded)
                     {
+                        var claim = new Claim("Department", signUp.Department);
                         await _userManager.AddToRoleAsync(user, signUp.Role);
+                        await _userManager.AddClaimAsync(user, claim);
                         return RedirectToAction("SignIn");
                     }
                     
@@ -147,6 +150,7 @@ namespace IdentityNetCore.Controllers
                     Id = user.Id,
                     FullName = user.FullName,
                     Email = user.Email,
+                    Claims = await _userManager.GetClaimsAsync(user),
                     Roles = await _userManager.GetRolesAsync(user)
                 });
             }

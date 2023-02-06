@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Sign Up";
     var roles = ViewBag.AllRoles;
+    //var departmentList = new List<string>
+    //{
+    //    "IT",
+    //    "Store",
+    //    "Teaching",
+    //    "Suppling"
+    //};
 }
 
 <h1>Sign Up</h1>
@@ -11,7 +18,13 @@
     <input type="text" asp-for="FullName" placeholder="Enter you Full Name" />
     <input type="email" asp-for="Email" placeholder="Enter you Email" />
     <input type="password" asp-for="Password" placeholder="Enter you Password" />
-
+    <select asp-for="Department">
+        <option disabled>Select you Department</option>
+        @foreach (var department in Enum.GetNames(typeof(ClaimTypeDepartment))) // @foreach (var department in departmentList)
+        {
+            <option value="@department">@department</option>
+        }
+    </select>
     <select asp-for="Role">
         <option disabled>Select you Role</option>
         @if (roles != null)
