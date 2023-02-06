@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IdentityNetCore.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,13 +25,13 @@ namespace IdentityNetCore.Controllers
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Member")]
         public IActionResult Member()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Admin()
         {
             return View();
@@ -42,6 +43,7 @@ namespace IdentityNetCore.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

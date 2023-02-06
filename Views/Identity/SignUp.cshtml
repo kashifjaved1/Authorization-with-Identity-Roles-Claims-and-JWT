@@ -13,7 +13,7 @@
     <input type="password" asp-for="Password" placeholder="Enter you Password" />
 
     <select asp-for="Role">
-        <option>Select you Role</option>
+        <option disabled>Select you Role</option>
         @if (roles != null)
         {
             foreach (var role in roles)

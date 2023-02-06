@@ -83,37 +83,24 @@ namespace IdentityNetCore.Controllers
             return View(signIn);
         }
 
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("SignIn", "Identity");
+        }
+
         public IActionResult AccessDenied()
         {
             return View();
         }
 
-        //public async Task<IActionResult> GetUserRoles()
-        private async Task<List<UserRolesDTO>> GetUserRoles()
-        {
-            var users = _userManager.Users.ToList();
-            var userRoles = new List<UserRolesDTO>();  
-            foreach (var user in users)
-            {
-                userRoles.Add(new UserRolesDTO
-                {
-                    Id = user.Id,
-                    FullName = user.FullName,
-                    Email = user.Email,
-                    Roles = await _userManager.GetRolesAsync(user)
-                });
-            }
-
-            //return Ok(userRoles);
-            return userRoles;
-        }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateRole()
         {
             return View();
         }
 
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleDTO createRole)
         {
@@ -147,12 +134,27 @@ namespace IdentityNetCore.Controllers
             return View(createRole);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsers()
         {
-            var userRoles = await GetUserRoles();
+            // getting and setting user_role(s) into UserRoleDTO
+            var users = _userManager.Users.ToList();
+            var userRoles = new List<UserRolesDTO>();
+            foreach (var user in users)
+            {
+                userRoles.Add(new UserRolesDTO
+                {
+                    Id = user.Id,
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    Roles = await _userManager.GetRolesAsync(user)
+                });
+            }
+
             return View(userRoles);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -165,16 +167,7 @@ namespace IdentityNetCore.Controllers
             return RedirectToAction("GetUsers", "Identity");
         }
 
-        //private async Task<List<IdentityRole>> GetRole(string id)
-        //{
-        //    var role = await _roleManager.FindByIdAsync(id);
-        //    var roles = new List<IdentityRole>();
-        //    if (role != null)
-        //    {
-                
-        //    }
-        //}
-
+        [Authorize(Roles = "Admin")]
         public IActionResult GetRoles()
         {
             var roleList = _roleManager.Roles.ToList();
@@ -197,6 +190,7 @@ namespace IdentityNetCore.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> DeleteRole(string id)
         {
