@@ -48,6 +48,17 @@ namespace IdentityNetCore
                 options.ExpireTimeSpan = TimeSpan.FromDays(1);
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Dep", policy =>
+                {
+                 // policy.RequireClaim("claimTypeOrNme, "claims1", "claim2", "claimN");
+                    policy.RequireClaim("Department", "IT", "Account", "Marketing");
+                    // policy.RequireClaim("claimTypeOrName, "claims1", "claim2", "claimN").RequireRole("RoleNameToIncludeInPolicy/claimTypeOrName"); after applying it here you don't need to put it seperately on controller/actionMethod with claim, just apply claim/policy only and role will be automatically applied.
+                    policy.RequireClaim("DpmtAdmin", "IT", "Account", "Marketing").RequireRole("Admin");
+                });
+            });
+
             services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllersWithViews();

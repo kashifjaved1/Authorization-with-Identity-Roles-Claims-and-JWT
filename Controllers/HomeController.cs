@@ -31,7 +31,12 @@ namespace IdentityNetCore.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        // if policy doesn't contain role in services configuration.
+        //[Authorize(Roles = "Admin")]
+        //[Authorize(Policy = "Department")]
+
+        // if policy contains role in services configuration, and role will be automatically applied.
+        [Authorize(Policy = "DpmtAdmin")]
         public IActionResult Admin()
         {
             return View();
