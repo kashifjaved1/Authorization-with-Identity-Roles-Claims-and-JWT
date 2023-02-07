@@ -43,8 +43,8 @@ namespace IdentityNetCore
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Identity/SignIn";
-                options.AccessDeniedPath = "/Identity/AccessDenied";
+                options.LoginPath = "/Account/SignIn";
+                options.AccessDeniedPath = "/Account/AccessDenied";
                 options.ExpireTimeSpan = TimeSpan.FromDays(1);
             });
 

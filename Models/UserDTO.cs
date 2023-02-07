@@ -13,6 +13,7 @@ namespace IdentityNetCore.Models
         [Required]
         [DataType(DataType.Password, ErrorMessage = "Valid Password is Required")]
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
 
     public class SignUpDTO : SignInDTO

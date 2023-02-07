@@ -12,7 +12,7 @@
         @*<form style="display: flex; flex-direction: row; gap: 5px;" asp-controller="Identity" asp-action="DeleteRole" method="post">*@
             @*<input type="text" name="@role.Id" id="@role.Id" asp-for="@role.Id" value="@role.Id" disabled />*@
             <input type="text" name="@role.Name" id="@role.Name" asp-for="@role.Name" value="@role.Name" disabled />
-            <a asp-controller="Identity" asp-action="DeleteRole" asp-route-id="@role.Id">Delete</a>
+            <a asp-controller="IdentityRole" asp-action="DeleteRole" asp-route-id="@role.Id">Delete</a>
             @*<input type="submit" value="Delete" />*@
         @*</form>*@
         </div>

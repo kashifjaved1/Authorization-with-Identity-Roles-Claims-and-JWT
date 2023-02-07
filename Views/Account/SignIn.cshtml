@@ -9,9 +9,10 @@
 }
 
 <h1>Sign In</h1>
-<form style="display: flex; flex-direction: column; gap: 5px;" asp-controller="Identity" asp-action="SignIn" method="post">
+<form style="display: flex; flex-direction: column; gap: 5px;" asp-controller="Account" asp-action="SignIn" method="post">
     @Html.ValidationSummary()
     <input type="text" asp-for="FullName" placeholder="Enter you Name" />
     <input type="password" asp-for="Password" placeholder="Enter you Password" />
+    <input type="checkbox" asp-for="RememberMe" />
     <input type="submit" name="Submit" />
 </form>

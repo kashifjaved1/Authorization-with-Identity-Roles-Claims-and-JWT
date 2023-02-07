@@ -3,24 +3,17 @@
 @{
     ViewData["Title"] = "Sign Up";
     var roles = ViewBag.AllRoles;
-    //var departmentList = new List<string>
-    //{
-    //    "IT",
-    //    "Store",
-    //    "Teaching",
-    //    "Suppling"
-    //};
 }
 
 <h1>Sign Up</h1>
-<form style="display: flex; flex-direction: column; gap: 5px;" asp-controller="Identity" asp-action="SignUp" method="post">
+<form style="display: flex; flex-direction: column; gap: 5px;" asp-controller="Account" asp-action="SignUp" method="post">
     @Html.ValidationSummary()
     <input type="text" asp-for="FullName" placeholder="Enter you Full Name" />
     <input type="email" asp-for="Email" placeholder="Enter you Email" />
     <input type="password" asp-for="Password" placeholder="Enter you Password" />
     <select asp-for="Department">
         <option disabled>Select you Department</option>
-        @foreach (var department in Enum.GetNames(typeof(ClaimTypeDepartment))) // @foreach (var department in departmentList)
+        @foreach (var department in Enum.GetNames(typeof(ClaimTypeDepartment))) 
         {
             <option value="@department">@department</option>
         }

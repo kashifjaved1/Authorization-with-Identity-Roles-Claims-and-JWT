@@ -49,7 +49,7 @@ namespace IdentityNetCore.Controllers
                         }
                     }
 
-                    return RedirectToAction("SignUp", "Identity");
+                    return RedirectToAction("SignUp");
                 }
             }
             catch (Exception)
@@ -96,7 +96,7 @@ namespace IdentityNetCore.Controllers
                 await _roleManager.DeleteAsync(role);
             }
 
-            return RedirectToAction("GetRoles", "Identity");
+            return RedirectToAction("GetRoles");
         }
     }
 }

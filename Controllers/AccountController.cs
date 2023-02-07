@@ -3,6 +3,7 @@ using IdentityNetCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -71,7 +72,7 @@ namespace IdentityNetCore.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(signIn.FullName, signIn.Password, isPersistent: true, false);
+                var result = await _signInManager.PasswordSignInAsync(signIn.FullName, signIn.Password, isPersistent: signIn.RememberMe, false);
 
                 if (result.Succeeded) return RedirectToAction("Index", "Home");
                 ModelState.AddModelError("Login", "Can't login with this boi.");
@@ -83,7 +84,7 @@ namespace IdentityNetCore.Controllers
         public async Task<IActionResult> SignOut()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("SignIn", "Identity");
+            return RedirectToAction("SignIn");
         }
 
         public IActionResult AccessDenied()
