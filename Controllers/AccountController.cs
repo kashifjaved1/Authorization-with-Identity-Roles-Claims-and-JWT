@@ -74,7 +74,13 @@ namespace IdentityNetCore.Controllers
             {
                 var result = await _signInManager.PasswordSignInAsync(signIn.FullName, signIn.Password, isPersistent: signIn.RememberMe, false);
 
-                if (result.Succeeded) return RedirectToAction("Index", "Home");
+                if (result.Succeeded)
+                {
+                    var user = await _userManager.FindByNameAsync(signIn.FullName);
+                    if (await _userManager.IsInRoleAsync(user, "Admin")) return RedirectToAction("Admin", "Home");
+                    if (await _userManager.IsInRoleAsync(user, "Member")) return RedirectToAction("Member", "Home");
+                }
+
                 ModelState.AddModelError("Login", "Can't login with this boi.");
             }
 

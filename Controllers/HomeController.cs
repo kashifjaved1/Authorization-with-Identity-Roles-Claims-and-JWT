@@ -25,7 +25,7 @@ namespace IdentityNetCore.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Member")]
+        [Authorize(Roles = "Member, Admin")]
         public IActionResult Member()
         {
             return View();
