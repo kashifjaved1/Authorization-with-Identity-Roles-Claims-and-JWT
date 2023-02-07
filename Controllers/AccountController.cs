@@ -77,6 +77,13 @@ namespace IdentityNetCore.Controllers
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync(signIn.FullName);
+                    var userClaims = await _userManager.GetClaimsAsync(user);
+                    if (userClaims.Any(x => x.Type == "Department"))
+                    {
+                        ModelState.AddModelError("Claim", "User not in any department");
+                        return View(signIn);
+                    }
+
                     if (await _userManager.IsInRoleAsync(user, "Admin")) return RedirectToAction("Admin", "Home");
                     if (await _userManager.IsInRoleAsync(user, "Member")) return RedirectToAction("Member", "Home");
                 }
