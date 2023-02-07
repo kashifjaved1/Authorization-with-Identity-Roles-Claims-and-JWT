@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Text;
 
 namespace IdentityNetCore
 {
@@ -27,6 +29,8 @@ namespace IdentityNetCore
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("myConn"))
             );
+
+            #region configuring application cookie
             services.AddIdentity<SystemUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
@@ -47,6 +51,24 @@ namespace IdentityNetCore
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.ExpireTimeSpan = TimeSpan.FromDays(1);
             });
+            #endregion
+
+            #region configuring jwt
+            var issuer = Configuration["JWT:Issuer"];
+            var audiance = Configuration["JWT:Audiance"];
+            var key = Configuration["JWT:KEY"];
+
+            services.AddAuthentication().AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = issuer,
+                    ValidAudience = audiance,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                };
+            });
 
             services.AddAuthorization(options =>
             {
@@ -58,7 +80,9 @@ namespace IdentityNetCore
                     policy.RequireClaim("DpmtAdmin", "IT", "Account", "Marketing").RequireRole("Admin");
                 });
             });
+            #endregion
 
+            // forcing url to be lowercase letters.
             services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllersWithViews();
