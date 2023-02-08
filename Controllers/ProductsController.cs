@@ -1,4 +1,5 @@
 ﻿using IdentityNetCore.Data;
+using IdentityNetCore.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ namespace IdentityNetCore.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [CustomAuthorize] // applied custom attribute to make authorize check by session using key department.
     public class ProductsController : ControllerBase // ControllerBase is basically apiController that used for mvc controller without views
     {
         [Route("List")]

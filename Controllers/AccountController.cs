@@ -1,5 +1,6 @@
 ﻿using IdentityNetCore.Data;
 using IdentityNetCore.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -72,6 +73,12 @@ namespace IdentityNetCore.Controllers
         {
             if (ModelState.IsValid)
             {
+                //setting session to use in app/api.
+                if (signIn.FullName == "karlin")
+                {
+                    HttpContext.Session.SetString("Department", "IT");
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(signIn.FullName, signIn.Password, isPersistent: signIn.RememberMe, false);
 
                 if (result.Succeeded)

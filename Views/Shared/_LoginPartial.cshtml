@@ -1,5 +1,8 @@
-﻿@{
-    var loggedIn = User.Identity.IsAuthenticated;
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var loggedIn = User.Identity.IsAuthenticated;    
 }
 
 @if(loggedIn)
@@ -10,6 +13,12 @@
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a>
     </li>
+
+    @*session based view rendering*@
+    if (HttpContextAccessor.HttpContext.Session.GetString("Department") == "IT")
+    {
+        <span>IT Departments zindaBaad!!!</span>
+    }
 }
 else {
     <li class="nav-item">

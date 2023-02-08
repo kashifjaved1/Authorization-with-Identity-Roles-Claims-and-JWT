@@ -82,6 +82,18 @@ namespace IdentityNetCore
             });
             #endregion
 
+            #region configure session
+            // configuring session for authentication
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(30);
+                options.Cookie.Name = "IdentityDemoSessionCookie";
+                //options.Cookie.Expiration = TimeSpan.FromMinutes(1);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            #endregion
+
             // forcing url to be lowercase letters.
             services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -103,6 +115,7 @@ namespace IdentityNetCore
 
             app.UseRouting();
 
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 
